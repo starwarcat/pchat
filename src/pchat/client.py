@@ -17,6 +17,7 @@ class Client():
             msg = self.c.recv(1024)
             if not msg:
                 continue
+            print ""
             print "Server say:" + msg
 #         self.c.close()
         
