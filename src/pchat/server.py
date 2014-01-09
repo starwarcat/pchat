@@ -1,7 +1,4 @@
 import socket
-import thread
-import time
-import traceback
 import sys
 
 class Server():
@@ -11,11 +8,12 @@ class Server():
     port = 9999
     conn = None
     addr = None
+    max_conn = 99
     
     def __init__(self):
-        self.login_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.login_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # TCP
         self.login_socket.bind((self.host, self.port))
-        self.login_socket.listen(99)
+        self.login_socket.listen(self.max_conn)
   
     def doTask(self):
         
@@ -39,12 +37,24 @@ class Server():
                 
     def msgHandler(self, msg):
         if(msg=="/list"):
-            self.conn.send("Your Buddies are:192.168.0.13, 192.168.0.14 ...")
-            print 
+            self.getBuddyList()
         elif(msg=="/quit"):
-            self.conn.close()
+            self.closeConn()
         else:
-            print msg
+            self.reply(msg)
+            
+    def getBuddyList(self):
+        """
+        Document of get BuddyList
+        """
+        return self.conn.send("Your Buddies are:192.168.0.13, 192.168.0.14 ...")
+        
+    def reply(self, msg):
+        """
+        Document of reply
+        """
+        #TODO
+        print msg
         
 
     
